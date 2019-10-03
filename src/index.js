@@ -18,18 +18,21 @@ import "./main.css";
     ]
 
     class Slider {
-        constructor(data, rootElement, classIndex) {
+        constructor(data, rootElement, objectStyles) {
             this.data = data;
             this.root = rootElement;
             this.imageIndex = 0;
             this.count = data.length;
-            this.selector = `carousel_item`;
             this.prefix = rootElement.slice(1,rootElement.length);
+            this.parent = document.getElementById(this.prefix);
+            this.showPagination = objectStyles.showPagination;
+            this.showArrows = objectStyles.showArrows;
+            
         }
         generateDOMImages() {
             return `
                 <div class="carousel_container">
-                    ${this.data.map((element, index) => `<img src=${element.src} data-select=${this.prefix} id=${element.id} class="carousel_item ${this.prefix}-carousel_item" />`).join("")}
+                    ${this.data.map((element, index) => `<img src=${element.src} id=${element.id} class="carousel_item" />`).join("")}
                 </div>
             `;
         }
@@ -37,9 +40,8 @@ import "./main.css";
         generateDOMPagination() {
             return `
                 <div class="pagination_container">
-                    ${this.data.map((dot, index) => `<span class="pagination_item" data-index=${index}></span>`).join("")}
-                </div>
-            `
+                    ${this.data.map((dot, index) => `<span style=${!this.showPagination ? "" : "display: none" } class="pagination_item" data-index=${index}></span>`).join("")}
+                </div> `
         }
 
         generateDOMCarousel() {
@@ -48,11 +50,11 @@ import "./main.css";
                     <div class="container_main">
                         ${this.generateDOMImages()}
 
-                        <div class="arrows_container">
-                            <div class="arrow_item arrow_left ${this.prefix}-arrow-left">
+                        <div class="arrows_container" style="${this.showArrows ? "" : "display: none"}">
+                            <div class="arrow_item arrow_left">
                                 <i class="fas fa-chevron-left"></i>
                             </div>
-                            <div class="arrow_item arrow_right ${this.prefix}-arrow-right">
+                            <div class="arrow_item arrow_right">
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         </div>
@@ -62,19 +64,42 @@ import "./main.css";
             )
         }
         bindingFunction() {
-            const leftArrow = document.querySelector(`.${this.prefix}-arrow-left`);
-            const rightArrow = document.querySelector(`.${this.prefix}-arrow-right`);
+            const leftArrow = this.parent.querySelector(".arrow_left");
+            const rightArrow = this.parent.querySelector(".arrow_right");
+            const dots = this.parent.querySelectorAll(".pagination_item");
 
-            leftArrow.addEventListener("click", this.handleSlideChange.bind(this, false))
-            rightArrow.addEventListener("click", this.handleSlideChange.bind(this, true))
+            leftArrow.addEventListener("click", this.handleArrowAction.bind(this, false))
+            rightArrow.addEventListener("click", this.handleArrowAction.bind(this, true))
+
+            dots.forEach((dot, dotIndex) => {
+                dot.addEventListener("click", this.handleDotAction.bind(this, dotIndex))
+            })
+        }
+
+        handleDotBehavior() {
+            const dots = this.parent.querySelectorAll(".pagination_item");
+            dots.map(d => d.classList.remove("pagi-active"))
+            this.handleSlideSelect.bind(this, dotIndex);
 
         }
-        
-        handleSlideChange(condition) {
-           const slides = document.querySelectorAll(`[data-select=${this.prefix}]`);
-            
-           console.log(slides)
+
+        handleDotAction(slideIndex) {
+            const slides = this.parent.querySelectorAll(".carousel_item");
+            const dots = this.parent.querySelectorAll(".pagination_item");
+            dots.forEach(dot => dot.classList.remove("pagi-active"));
+            slides.forEach(slide => slide.classList.remove("active"));
+
+            slides[slideIndex].classList.add("active");
+            dots[slideIndex].classList.add("pagi-active");
+        }
+
+
+        handleArrowAction(condition) {
+           const slides = this.parent.querySelectorAll(".carousel_item");
+           const dots = this.parent.querySelectorAll(".pagination_item");
+
             slides[this.imageIndex].classList.remove("active");
+            dots[this.imageIndex].classList.remove("pagi-active");
 
             if(condition) {
                 this.imageIndex = this.imageIndex + 1;
@@ -89,27 +114,35 @@ import "./main.css";
                     this.imageIndex = slides.length - 1;
                 }
             }
+
+            dots[this.imageIndex].classList.add("pagi-active");
             slides[this.imageIndex].classList.add("active");
+        }
+
+        handleAutoSwitch() {
+            const slides = this.parent.querySelectorAll(".carousel_item");
         }
     };
 
+    const objectStyles = {
+        showPagination: false
+    }
 
-    const testSlider = new Slider(data, "#root")
-    const testSlider2 = new Slider(data2, "#root-2");
-    const testSlider3 = new Slider(data, "#root-3");
 
-    const root = document.getElementById("root");
-    root.innerHTML = testSlider3.generateDOMCarousel();
+    const testSlider = new Slider(data, "#root", {showPagination: true, showArrows: true})
+    const testSlider2 = new Slider(data2, "#root-2", {showPagination: false, showArrows: false});
+    const testSlider3 = new Slider(data, "#root-3", {showPagination: false, showArrows: true});
 
-    const root3 = document.getElementById("root-3");
-    root3.innerHTML = testSlider.generateDOMCarousel();
-    //console.log(testSlider.handleSlideChange())
+    const root1 = document.getElementById("root");
     const root2 = document.getElementById("root-2");
+    const root3 = document.getElementById("root-3");
+
+    root1.innerHTML = testSlider.generateDOMCarousel();
     root2.innerHTML = testSlider2.generateDOMCarousel();
-    testSlider2.bindingFunction();
+    root3.innerHTML = testSlider3.generateDOMCarousel();
+
     testSlider.bindingFunction();
-    // console.log(testSlider2.handleSlideChange())
-
-
+    testSlider2.bindingFunction();
+    testSlider3.bindingFunction();
 })()
 

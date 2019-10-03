@@ -1,10 +1,15 @@
  .container_main {
     display: flex;
     width: 500px; height: 250px;
+    margin: 5px;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     position: relative;
+    box-shadow: 2px 3px 0 0 #000;
+    border: 2px solid #000;
+    overflow: hidden;
+    border-radius: 3px;
  }
 
 .carousel_container {
@@ -14,9 +19,6 @@
     position: relative;
     justify-content: center;
     align-items: center;
-    box-shadow: 2px 3px 0 0 #000;
-    border: 2px solid #000;
-    border-radius: 3px;
  }
 
 .carousel_image {
@@ -37,9 +39,10 @@
      transition: all 0.6s ease;
  }
 
-.active {
-    opacity: 1;
+ .carousel_item.active {
+     opacity: 1;
  }
+
  
 .arrows_container {
      position: absolute;
@@ -91,6 +94,7 @@
      box-shadow: 1px 2px 0 0 #000;
      opacity: 0.5;
      z-index: 999;
+     cursor: pointer;
  }
  
 .pagination_item.pagi-active {

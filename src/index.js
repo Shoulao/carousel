@@ -27,7 +27,8 @@ import "./main.css";
             this.parent = document.getElementById(this.prefix);
             this.showPagination = objectStyles.showPagination;
             this.showArrows = objectStyles.showArrows;
-            
+            this.interval;
+            this.autoMode = objectStyles.autoMode;
         }
         generateDOMImages() {
             return `
@@ -63,6 +64,7 @@ import "./main.css";
                 `
             )
         }
+
         bindingFunction() {
             const leftArrow = this.parent.querySelector(".arrow_left");
             const rightArrow = this.parent.querySelector(".arrow_right");
@@ -117,21 +119,20 @@ import "./main.css";
 
             dots[this.imageIndex].classList.add("pagi-active");
             slides[this.imageIndex].classList.add("active");
+            
+            this.handleAutoChange()
         }
 
-        handleAutoSwitch() {
-            const slides = this.parent.querySelectorAll(".carousel_item");
+        handleAutoChange() {
+            clearInterval(this.interval)
+            this.interval = setInterval(this.handleArrowAction.bind(this, true), 3000)
         }
     };
 
-    const objectStyles = {
-        showPagination: false
-    }
 
-
-    const testSlider = new Slider(data, "#root", {showPagination: true, showArrows: true})
-    const testSlider2 = new Slider(data2, "#root-2", {showPagination: false, showArrows: false});
-    const testSlider3 = new Slider(data, "#root-3", {showPagination: false, showArrows: true});
+    const testSlider = new Slider(data, "#root", {showPagination: true, showArrows: true, autoMode: false})
+    const testSlider2 = new Slider(data2, "#root-2", {showPagination: false, showArrows: false, autoMode: true});
+    const testSlider3 = new Slider(data, "#root-3", {showPagination: false, showArrows: true, autoMode: true});
 
     const root1 = document.getElementById("root");
     const root2 = document.getElementById("root-2");

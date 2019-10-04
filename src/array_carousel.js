@@ -1,7 +1,7 @@
-import "./main.css";
 
 (() => {
-   // "use strict";
+    
+    "use strict";
 
     const data = [
         { id: 1, src: "https://cdn.pixabay.com/photo/2017/04/22/00/14/universe-2250310_960_720.jpg" },
@@ -29,33 +29,34 @@ import "./main.css";
             this.showArrows = objectStyles.showArrows;
             this.interval;
             this.autoMode = objectStyles.autoMode;
+            this.slideEffect = false;
         }
         generateDOMImages() {
             return `
-                <div class="carousel_container">
-                    ${this.data.map((element, index) => `<img src=${element.src} id=${element.id} class="carousel_item" />`).join("")}
+                <div class="${styles.carousel_container}">
+                    ${this.data.map((element, index) => `<img src=${element.src} id=${element.id} class="${styles.carousel_item}" />`).join("")}
                 </div>
             `;
         }
 
         generateDOMPagination() {
             return `
-                <div class="pagination_container">
-                    ${this.data.map((dot, index) => `<span style=${!this.showPagination ? "" : "display: none" } class="pagination_item" data-index=${index}></span>`).join("")}
+                <div class="${styles.pagination_container}">
+                    ${this.data.map((dot, index) => `<span style=${!this.showPagination ? "" : "display: none" } class="${styles.pagination_item}" data-index=${index}></span>`).join("")}
                 </div> `
         }
 
         generateDOMCarousel() {
             return (
                 `
-                    <div class="container_main">
+                    <div class="${styles.container_main}">
                         ${this.generateDOMImages()}
 
-                        <div class="arrows_container" style="${this.showArrows ? "" : "display: none"}">
-                            <div class="arrow_item arrow_left">
+                        <div class="${styles.arrows_container}" style="${this.showArrows ? "" : "display: none"}">
+                            <div class="${styles.arrow_item} ${styles.arrow_left}">
                                 <i class="fas fa-chevron-left"></i>
                             </div>
-                            <div class="arrow_item arrow_right">
+                            <div class="${styles.arrow_item} ${styles.arrow_right}">
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         </div>
@@ -66,16 +67,16 @@ import "./main.css";
         }
 
         bindingFunction() {
-            const leftArrow = this.parent.querySelector(".arrow_left");
-            const rightArrow = this.parent.querySelector(".arrow_right");
-            const dots = this.parent.querySelectorAll(".pagination_item");
+            // const leftArrow = this.parent.querySelector(".arrow_left");
+            // const rightArrow = this.parent.querySelector(".arrow_right");
+            // const dots = this.parent.querySelectorAll(".pagination_item");
 
-            leftArrow.addEventListener("click", this.handleArrowAction.bind(this, false))
-            rightArrow.addEventListener("click", this.handleArrowAction.bind(this, true))
+            // leftArrow.addEventListener("click", this.handleArrowAction.bind(this, false))
+            // rightArrow.addEventListener("click", this.handleArrowAction.bind(this, true))
 
-            dots.forEach((dot, dotIndex) => {
-                dot.addEventListener("click", this.handleDotAction.bind(this, dotIndex))
-            })
+            // dots.forEach((dot, dotIndex) => {
+            //     dot.addEventListener("click", this.handleDotAction.bind(this, dotIndex))
+            // })
         }
 
         handleDotBehavior() {
@@ -123,9 +124,26 @@ import "./main.css";
             this.handleAutoChange()
         }
 
+        // handleSlideEffectSwitch() {
+        //     const slides = this.parent.querySelectorAll(".carousel_item");
+        //     slides[this.imageIndex].style.marginTop = "100%";
+        //     console.log(this.interval)
+
+        //     this.imageIndex = this.imageIndex + 1;
+        //     if(this.imageIndex > this.count - 1) {
+        //         this.imageIndex = 0;
+        //     }
+
+        //     slides[this.imageIndex].style.marginTop = (+100*this.imageIndex)+"%";
+        //     //clearInterval(this.interval)
+
+            
+        // }
+
         handleAutoChange() {
             clearInterval(this.interval)
             this.interval = setInterval(this.handleArrowAction.bind(this, true), 3000)
+           // this.interval = setInterval(this.handleSlideEffectSwitch.bind(this), 4000)
         }
     };
 
@@ -135,6 +153,7 @@ import "./main.css";
 
     const root1 = document.getElementById("root");
     const root2 = document.getElementById("root-2");
+
 
     root1.innerHTML = testSlider.generateDOMCarousel();
     root2.innerHTML = testSlider2.generateDOMCarousel();

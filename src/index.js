@@ -1,7 +1,7 @@
 import "./main.css";
 
 (() => {
-   // "use strict";
+    "use strict";
 
     const data = [
         { id: 1, src: "https://cdn.pixabay.com/photo/2017/04/22/00/14/universe-2250310_960_720.jpg" },
@@ -42,9 +42,10 @@ import "./main.css";
             this.arrowSize = objectStyles.arrowSize ? objectStyles.arrowSize : "1.4rem";
             this.arrowBg = objectStyles.arrowBg ? objectStyles.arrowBg : "rgba(0,0,0,0.4)";
             this.slides;
-            this.slideSwitchTiming = objectStyles.timing ? objectStyles.timing : 3000;
+            this.slideSwitchTiming = objectStyles.timing ? objectStyles.timing : 3000; // tbc
             this.arrowBlurEffect = objectStyles.arrowBlurEffect;
         }
+
         generateDOMImages() {
             return `
                 <div class="carousel_container">
@@ -89,9 +90,8 @@ import "./main.css";
 
         bindingFunction() {
             this.asignValuesToVariables();
-            const leftArrow = this.parent.querySelector(".arrow_left");
-            const rightArrow = this.parent.querySelector(".arrow_right");
-            const dots = this.parent.querySelectorAll(".pagination_item");
+            const leftArrow = this.arrowLeft.selector;
+            const rightArrow = this.arrowRight.selector;
             
 
             leftArrow.addEventListener("click", this.handleArrowAction.bind(this, false))
@@ -104,6 +104,7 @@ import "./main.css";
 
         handleDotBehavior() {
             this.asignValuesToVariables();
+
             this.dots.map(d => d.classList.remove("pagi-active"))
             this.handleSlideSelect.bind(this, dotIndex);
 
@@ -112,7 +113,6 @@ import "./main.css";
         handleDotAction(slideIndex) {
             this.dots.forEach(dot => dot.classList.remove("pagi-active"));
             this.slides.forEach(slide => slide.classList.remove("active"));
-
             this.slides[slideIndex].classList.add("active");
             this.dots[slideIndex].classList.add("pagi-active");
         }
@@ -120,6 +120,7 @@ import "./main.css";
 
         handleArrowAction(condition) {
             this.slides[this.imageIndex].classList.remove("active");
+
             if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.remove("pagi-active");
 
             if(condition) {
@@ -137,12 +138,13 @@ import "./main.css";
             }
 
             if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.add("pagi-active");
-           this.slides[this.imageIndex].classList.add("active");
+            this.slides[this.imageIndex].classList.add("active");
            
         }
 
         handleAutoChange() {
             clearInterval(this.interval)
+
             const speed = (factor) => factor ? factor : 3000;
             this.interval = setInterval(this.handleArrowAction.bind(this, true), speed(this.slideSwitchTiming))
         }
@@ -159,8 +161,19 @@ import "./main.css";
         arrowBlurEffect: true
     }
 
+    const styleObject2 = {
+        showPagination: true,
+        showArrows: true,
+        autoMode: true,
+        timing: 500,
+        arrowColor: "#1ca1f3",
+        arrowSize: "2.4rem",
+        arrowBg: true, // bool or rgba
+        arrowBlurEffect: true
+    }
+
     const testSlider = new Slider(data, "#root", styleObject)
-    const testSlider2 = new Slider(data2, "#root-2", {showPagination: false, showArrows: false, autoMode: true, timing: 500});
+    const testSlider2 = new Slider(data2, "#root-2", styleObject2);
 
     const root1 = document.getElementById("root");
     const root2 = document.getElementById("root-2");

@@ -28,12 +28,27 @@ import "./main.css";
             this.showPagination = objectStyles.showPagination;
             this.showArrows = objectStyles.showArrows;
             this.interval;
-            this.autoMode = objectStyles.autoMode;
+            this.autoMode = objectStyles.autoMode ? this.handleAutoChange() : null;
+            this.Arrow = (direction, parent = this.parent) => {
+                return {
+                    class: "arrow_item arrow_" + direction,
+                    direction: direction,
+                    selector: parent.querySelector(".arrow_" + direction)
+                }
+            };
+            this.arrowLeft;
+            this.arrowRight;
+            this.arrowColor = objectStyles.arrowColor ? objectStyles.arrowColor : "#fff";
+            this.arrowSize = objectStyles.arrowSize ? objectStyles.arrowSize : "1.4rem";
+            this.arrowBg = objectStyles.arrowBg ? objectStyles.arrowBg : "rgba(0,0,0,0.4)";
+            this.slides;
+            this.slideSwitchTiming = objectStyles.timing ? objectStyles.timing : 3000;
+            this.arrowBlurEffect = objectStyles.arrowBlurEffect;
         }
         generateDOMImages() {
             return `
                 <div class="carousel_container">
-                    ${this.data.map((element, index) => `<img src=${element.src} id=${element.id} class="carousel_item" />`).join("")}
+                    ${this.data.map((element, index) => `<img src=${element.src} id=${element.id} class="${index === 0 ? 'carousel_item active' : 'carousel_item'}" />`).join("")}
                 </div>
             `;
         }
@@ -52,11 +67,11 @@ import "./main.css";
                         ${this.generateDOMImages()}
 
                         <div class="arrows_container" style="${this.showArrows ? "" : "display: none"}">
-                            <div class="arrow_item arrow_left">
-                                <i class="fas fa-chevron-left"></i>
+                            <div class="arrow_item arrow_left" style="background:${this.arrowBg}; box-shadow:${this.arrowBlurEffect ? `22px 0px 25px 20px  ${this.arrowBg}` : ""};">
+                                <i class="fas fa-chevron-left" style="color:${this.arrowColor}; font-size:${this.arrowSize};"></i>
                             </div>
-                            <div class="arrow_item arrow_right">
-                                <i class="fas fa-chevron-right"></i>
+                            <div class="arrow_item arrow_right" style="background:${this.arrowBg}; box-shadow:${this.arrowBlurEffect ? `-22px 0px 25px 20px  ${this.arrowBg}` : ""};">
+                                <i class="fas fa-chevron-right" style="color:${this.arrowColor}; font-size:${this.arrowSize};"></i>
                             </div>
                         </div>
                         ${this.generateDOMPagination()}
@@ -65,43 +80,47 @@ import "./main.css";
             )
         }
 
+        asignValuesToVariables() {
+            this.slides = this.parent.querySelectorAll(".carousel_item");
+            this.dots = this.parent.querySelectorAll(".pagination_item");
+            this.arrowLeft = new this.Arrow("left", this.parent);
+            this.arrowRight = new this.Arrow("right", this.parent);
+        }
+
         bindingFunction() {
+            this.asignValuesToVariables();
             const leftArrow = this.parent.querySelector(".arrow_left");
             const rightArrow = this.parent.querySelector(".arrow_right");
             const dots = this.parent.querySelectorAll(".pagination_item");
+            
 
             leftArrow.addEventListener("click", this.handleArrowAction.bind(this, false))
             rightArrow.addEventListener("click", this.handleArrowAction.bind(this, true))
 
-            dots.forEach((dot, dotIndex) => {
+            this.dots.forEach((dot, dotIndex) => {
                 dot.addEventListener("click", this.handleDotAction.bind(this, dotIndex))
             })
         }
 
         handleDotBehavior() {
-            const dots = this.parent.querySelectorAll(".pagination_item");
-            dots.map(d => d.classList.remove("pagi-active"))
+            this.asignValuesToVariables();
+            this.dots.map(d => d.classList.remove("pagi-active"))
             this.handleSlideSelect.bind(this, dotIndex);
 
         }
 
         handleDotAction(slideIndex) {
-            const slides = this.parent.querySelectorAll(".carousel_item");
-            const dots = this.parent.querySelectorAll(".pagination_item");
-            dots.forEach(dot => dot.classList.remove("pagi-active"));
-            slides.forEach(slide => slide.classList.remove("active"));
+            this.dots.forEach(dot => dot.classList.remove("pagi-active"));
+            this.slides.forEach(slide => slide.classList.remove("active"));
 
-            slides[slideIndex].classList.add("active");
-            dots[slideIndex].classList.add("pagi-active");
+            this.slides[slideIndex].classList.add("active");
+            this.dots[slideIndex].classList.add("pagi-active");
         }
 
 
         handleArrowAction(condition) {
-           const slides = this.parent.querySelectorAll(".carousel_item");
-           const dots = this.parent.querySelectorAll(".pagination_item");
-
-            slides[this.imageIndex].classList.remove("active");
-            dots[this.imageIndex].classList.remove("pagi-active");
+            this.slides[this.imageIndex].classList.remove("active");
+            if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.remove("pagi-active");
 
             if(condition) {
                 this.imageIndex = this.imageIndex + 1;
@@ -113,25 +132,35 @@ import "./main.css";
             if(!condition) {
                 this.imageIndex = this.imageIndex - 1;
                 if(this.imageIndex < 0) {
-                    this.imageIndex = slides.length - 1;
+                    this.imageIndex = this.slides.length - 1;
                 }
             }
 
-            dots[this.imageIndex].classList.add("pagi-active");
-            slides[this.imageIndex].classList.add("active");
-            
-            this.handleAutoChange()
+            if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.add("pagi-active");
+           this.slides[this.imageIndex].classList.add("active");
+           
         }
 
         handleAutoChange() {
             clearInterval(this.interval)
-            this.interval = setInterval(this.handleArrowAction.bind(this, true), 3000)
+            const speed = (factor) => factor ? factor : 3000;
+            this.interval = setInterval(this.handleArrowAction.bind(this, true), speed(this.slideSwitchTiming))
         }
     };
 
+    const styleObject = {
+        showPagination: false,
+        showArrows: true,
+        autoMode: true,
+        timing: 500,
+        arrowColor: "#fff",
+        arrowSize: "1.4rem",
+        arrowBg: false, // bool or rgba
+        arrowBlurEffect: true
+    }
 
-    const testSlider = new Slider(data, "#root", {showPagination: true, showArrows: true, autoMode: false})
-    const testSlider2 = new Slider(data2, "#root-2", {showPagination: false, showArrows: false, autoMode: true});
+    const testSlider = new Slider(data, "#root", styleObject)
+    const testSlider2 = new Slider(data2, "#root-2", {showPagination: false, showArrows: false, autoMode: true, timing: 500});
 
     const root1 = document.getElementById("root");
     const root2 = document.getElementById("root-2");

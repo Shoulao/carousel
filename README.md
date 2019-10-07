@@ -1,5 +1,9 @@
 # 🦊 Basic reusable carousel - Vanilla JS
 
+### Presentation
+
+<img src="https://user-images.githubusercontent.com/28606968/66319303-2b392700-e91d-11e9-90de-f15f2ef817da.png" width="800" />
+
 ### How to use it?
 
 <img width="600" src="https://user-images.githubusercontent.com/28606968/66317766-69811700-e91a-11e9-9044-a50816867bc3.png">

@@ -21,7 +21,7 @@ export class Slider {
         this.arrowLeft;
         this.arrowRight;
 
-        // STYLING
+        // STYLING OPTIONS
         this.slides;
         this.slideSwitchTiming = objectStyles.timing;
         this.autoMode = objectStyles.autoMode ? this.handleAutoChange() : null;
@@ -97,7 +97,6 @@ export class Slider {
 
         this.dots.map(d => d.classList.remove("pagi-active"))
         this.handleSlideSelect.bind(this, dotIndex);
-
     }
 
     handleDotAction(slideIndex) {
@@ -129,7 +128,6 @@ export class Slider {
 
         if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.add("pagi-active");
         this.slides[this.imageIndex].classList.add("active");
-
     }
 
     handleAutoChange() {
@@ -137,8 +135,6 @@ export class Slider {
         this.interval = setInterval(this.handleArrowAction.bind(this, true), this.slideSwitchTiming)
     }
 };
-
-
 
 export const generateSlider = (data, parent, styles) => {
     return new Slider(data, parent, styles)

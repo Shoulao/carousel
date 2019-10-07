@@ -1,13 +1,11 @@
  .container_main {
     display: flex;
-    width: 500px; height: 250px;
+    width: 100%; height: 100%;
     margin: 5px;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     position: relative;
-    box-shadow: 2px 3px 0 0 #000;
-    border: 2px solid #000;
     overflow: hidden;
     border-radius: 3px;
  }
@@ -43,7 +41,6 @@
      opacity: 1;
  }
 
- 
 .arrows_container {
      position: absolute;
      top: 0; bottom: 0; left: 0; right: 0;
@@ -67,6 +64,7 @@
      opacity: 0.5;
      transition: all 0.3s ease;
  }
+
 .arrow_item:hover {
     opacity: 1;
     cursor: pointer;
@@ -96,8 +94,9 @@
      z-index: 999;
      cursor: pointer;
  }
- 
-.pagination_item.pagi-active {
+
+.pagi-active {
     opacity: 1;
     background: #fab525;
  }
+

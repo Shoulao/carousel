@@ -7,6 +7,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" type="text/css" />
+        <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
     </head>
     <body>
         <div id="root" style="width: 500px; height: 250px;"></div>
@@ -22,5 +23,6 @@
 
     <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
+    <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
     </body>
 </html>

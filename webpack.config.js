@@ -83,13 +83,13 @@ module.exports = env => {
       module: {
         rules: [
           {
+            test: /\.js$/,
+            use: "babel-loader"
+          },
+          {
             test: /\.css$/,
             // include: /node_modules/,
             use: ["style-loader", "css-loader"]
-          },
-          {
-            test: /\.js$/,
-            use: "babel-loader"
           },
           {
             test: /\.(jpe?g|png|gif|svg|pdf)$/,

@@ -13,7 +13,7 @@
  }
 
 .carousel_container {
-    height: 250px; width: 500px;
+    height: 100%; width: 100%;
     display: flex;
     flex-direction: column;
     position: relative;

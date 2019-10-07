@@ -1,20 +1,15 @@
 # 🦊 Basic reusable carousel - Vanilla JS
 
-### Technology
-  - HTML
-  - CSS
-  - JS
-  
 ### How to use it?
 
-<img width="300" src="https://user-images.githubusercontent.com/28606968/66317766-69811700-e91a-11e9-9044-a50816867bc3.png">
+<img width="600" src="https://user-images.githubusercontent.com/28606968/66317766-69811700-e91a-11e9-9044-a50816867bc3.png">
 
   #### imports
        - importing function that creates instance of a slider
        - importing main slider styles
        - importing sample data
        
-<img width="300" src="https://user-images.githubusercontent.com/28606968/66317765-68e88080-e91a-11e9-8a9e-ad2ce1a31f46.png">
+<img width="600" src="https://user-images.githubusercontent.com/28606968/66317765-68e88080-e91a-11e9-8a9e-ad2ce1a31f46.png">
  
   #### styling
        - slider has a default css classes that forms given look
@@ -25,7 +20,7 @@
             - timing: time in ms (f.e 3000 => each slides will change after each 3s)
             - paginationClass, sliderContainerClass, arrowClass, paginationClass: these are additional classes we can give to                 each of these elements. We can give multiple additional classes and set personal styling in separate css file.
        
-<img width="300" src="https://user-images.githubusercontent.com/28606968/66317764-68e88080-e91a-11e9-95e6-6741758697d8.png">
+<img width="600" src="https://user-images.githubusercontent.com/28606968/66317764-68e88080-e91a-11e9-95e6-6741758697d8.png">
 
   #### rendering
        - assign variable to the certain DOM element, with document.getElementById()

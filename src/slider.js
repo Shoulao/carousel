@@ -89,6 +89,16 @@ export class Slider {
         this.dots.forEach((dot, dotIndex) => {
             dot.addEventListener("click", this.handleDotAction.bind(this, dotIndex))
             dot.addEventListener("touchstart", this.handleDotAction.bind(this, dotIndex))
+        });
+
+        this.slides.forEach(slide => {
+            slide.addEventListener("mouseover", () => {
+                clearInterval(this.interval)
+            })
+
+            slide.addEventListener("mouseleave", () => {
+                this.handleAutoChange()
+            })
         })
     }
 
@@ -128,6 +138,10 @@ export class Slider {
 
         if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.add("pagi-active");
         this.slides[this.imageIndex].classList.add("active");
+    }
+
+    handleStopSlider() {
+        clearInterval(this.interval);
     }
 
     handleAutoChange() {

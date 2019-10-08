@@ -1,6 +1,7 @@
 # 🦊 Basic reusable carousel - Vanilla JS
 
 ### Presentation
+  - the styling of a carousel is fully customizable, you can add your own classes via objectStyle element like in the description below
 
 ### Update:
   - added onmouseover functionality - on mouse over action stops the slider

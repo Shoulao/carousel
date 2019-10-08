@@ -42,6 +42,16 @@
      opacity: 1;
  }
 
+.carousel_title {
+    position: absolute;
+    font-weight: bolder;
+    color: #fff;
+    opacity: 0;
+}
+
+.carousel_title.active {
+    opacity: 1;
+}
 .arrows_container {
      position: absolute;
      top: 0; bottom: 0; left: 0; right: 0;

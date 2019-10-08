@@ -36,9 +36,18 @@ export class Slider {
     generateDOMImages() {
         return `
             <div class="carousel_container ${this.sliderContainerClass}">
-                ${this.data.map((element, index) => `<img src=${element.src} id=${element.id} class="${index === 0 ? 'carousel_item active' : 'carousel_item'}" />`).join("")}
+                ${this.data.map((element, index) => `<img src=${element.src} id=${element.id} class="${index === 0 ? 'carousel_item active' : 'carousel_item'}" />
+                <h3 class="carousel_title">${element.title}</h3>`).join("")}
             </div>
         `;
+    }
+
+    generateSliderTitle() {
+        return `
+            <div class="carousel_title_container">
+                ${this.data.map(element => `<h1 class="carousel_title">${element.title}</h1>`).join("")}
+            </div>
+        `
     }
 
     generateDOMPagination() {
@@ -74,6 +83,7 @@ export class Slider {
         this.dots = this.parent.querySelectorAll(".pagination_item");
         this.arrowLeft = new this.Arrow("left", this.parent);
         this.arrowRight = new this.Arrow("right", this.parent);
+        this.titles = this.parent.querySelectorAll(".carousel_title");
     }
 
     bindingFunction() {
@@ -119,7 +129,7 @@ export class Slider {
 
     handleArrowAction(condition) {
         this.slides[this.imageIndex].classList.remove("active"); // left: 0
-
+        this.titles[this.imageIndex].classList.remove("active");
         if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.remove("pagi-active");
 
         if(condition) {
@@ -137,6 +147,7 @@ export class Slider {
         }
 
         if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.add("pagi-active");
+        this.titles[this.imageIndex].classList.add("active");
         this.slides[this.imageIndex].classList.add("active");
     }
 

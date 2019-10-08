@@ -6,9 +6,9 @@ import "./main.css";
 
 
 const styleObject = {
-    showPagination: false, // true or false
+    showPagination: true, // true or false
     showArrows: true, // true or false
-    autoMode: false, // true or false
+    autoMode: true, // true or false
     timing: 3000, // time in ms
     paginationClass: "", // creates a class with a given name (you can give additional styles)
     sliderContainerClass: "", // creates a class with a given name (you can give additional styles)
@@ -20,7 +20,7 @@ const styleObject2 = {
     showPagination: true,
     showArrows: false,
     autoMode: true,
-    timing: 1000,
+    timing: 2000,
     paginationClass: "",
     sliderContainerClass: "",
     arrowClass: "",

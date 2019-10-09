@@ -6,7 +6,7 @@ export class Slider {
         this.root = rootElement;
         this.imageIndex = 0;
         this.count = data.length;
-        this.prefix = rootElement.slice(1,rootElement.length);
+        this.prefix = rootElement.slice(1, rootElement.length);
         this.parent = document.getElementById(this.prefix);
         this.showPagination = objectStyles.showPagination;
         this.showArrows = objectStyles.showArrows;
@@ -53,7 +53,7 @@ export class Slider {
     generateDOMPagination() {
         return `
             <div class="pagination_container">
-                ${this.data.map((dot, index) => `<span style=${!this.showPagination ? "" : "display: none" } class="pagination_item ${this.paginationClass}" data-index=${index}></span>`).join("")}
+                ${this.data.map((dot, index) => `<span style=${!this.showPagination ? "" : "display: none"} class="pagination_item ${this.paginationClass}" data-index=${index}></span>`).join("")}
             </div> `
     }
 
@@ -126,37 +126,36 @@ export class Slider {
 
 
     handleArrowAction(condition) {
-        this.slides[this.imageIndex].classList.remove("active"); // left: 0
-        //this.titles[this.imageIndex].classList.remove("active");
+        this.slides[this.imageIndex].classList.remove("active");
         this.handleTitleAnimation("basic", this.titles[this.imageIndex])
-        if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.remove("pagi-active");
+        if (this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.remove("pagi-active");
 
-        if(condition) {
+        if (condition) {
             this.imageIndex = this.imageIndex + 1;
-            if(this.imageIndex > this.count - 1) {
+            if (this.imageIndex > this.count - 1) {
                 this.imageIndex = 0;
             }
         }
 
-        if(!condition) {
+        if (!condition) {
             this.imageIndex = this.imageIndex - 1;
-            if(this.imageIndex < 0) {
+            if (this.imageIndex < 0) {
                 this.imageIndex = this.slides.length - 1;
             }
         }
 
-        if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.add("pagi-active");
-        // this.titles[this.imageIndex].classList.add("active");
-        //this.titles[this.imageIndex].style.opacity = 1;
+        if (this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.add("pagi-active");
+
         this.titleAnimation ?
             this.handleTitleAnimation(this.titleAnimation, this.titles[this.imageIndex])
             :
             this.handleTitleAnimation("classic", this.titles[this.imageIndex]);
+
         this.slides[this.imageIndex].classList.add("active");
     }
 
     handleTitleAnimation(animationType, element) {
-        //console.log(animationType)
+
         switch (animationType) {
             case "zoomIn":
                 element.classList.add("zoomIn")

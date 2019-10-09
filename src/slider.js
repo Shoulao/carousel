@@ -22,16 +22,16 @@ export class Slider {
         this.arrowRight;
 
         // STYLING OPTIONS
-        this.slides;
+        this.titleAnimation = objectStyles.titleAnimation ? objectStyles.titleAnimation : undefined;
         this.slideSwitchTiming = objectStyles.timing;
         this.autoMode = objectStyles.autoMode ? this.handleAutoChange() : null;
         this.containerClass = objectStyles.containerClass ? objectStyles.containerClass : "";
         this.sliderContainerClass = objectStyles.sliderContainerClass ? objectStyles.sliderContainerClass : "";
         this.arrowClass = objectStyles.arrowClass ? objectStyles.arrowClass : "";
+        this.carouselTitleClass = objectStyles.carouselTitleClass ? objectStyles.carouselTitleClass : "";
         this.paginationClass = objectStyles.paginationClass ? objectStyles.paginationClass : "";
 
     }
-
 
     generateDOMImages() {
         return `
@@ -45,7 +45,7 @@ export class Slider {
     generateSliderTitle() {
         return `
             <div class="carousel_title_container">
-                ${this.data.map(element => `<h1 class="carousel_title">${element.title}</h1>`).join("")}
+                ${this.data.map((element, index) => `<h1 class="${index === 0 ? 'carousel_title active red' : 'carousel_title'} ${this.carouselTitleClass}">${element.title}</h1>`).join("")}
             </div>
         `
     }
@@ -90,26 +90,24 @@ export class Slider {
         this.asignValuesToVariables();
         const leftArrow = this.arrowLeft.selector;
         const rightArrow = this.arrowRight.selector;
-        leftArrow.addEventListener("click", this.handleArrowAction.bind(this, false))
-        rightArrow.addEventListener("click", this.handleArrowAction.bind(this, true))
+        leftArrow.addEventListener("click", this.handleArrowAction.bind(this, false));
+        rightArrow.addEventListener("click", this.handleArrowAction.bind(this, true));
 
-        leftArrow.addEventListener("touchstart", this.handleArrowAction.bind(this, false))
-        rightArrow.addEventListener("touchstart", this.handleArrowAction.bind(this, true))
-
+        leftArrow.parentElement.addEventListener("mouseover", this.handleSwitchStop.bind(this));
+        leftArrow.parentElement.addEventListener("mouseleave", this.handleAutoChange.bind(this));
         this.dots.forEach((dot, dotIndex) => {
-            dot.addEventListener("click", this.handleDotAction.bind(this, dotIndex))
-            dot.addEventListener("touchstart", this.handleDotAction.bind(this, dotIndex))
+            dot.addEventListener("click", this.handleDotAction.bind(this, dotIndex));
+            dot.addEventListener("touchstart", this.handleDotAction.bind(this, dotIndex));
         });
 
         this.slides.forEach(slide => {
-            slide.addEventListener("mouseover", () => {
-                clearInterval(this.interval)
-            })
-
-            slide.addEventListener("mouseleave", () => {
-                this.handleAutoChange()
-            })
+            slide.parentElement.addEventListener("mouseover", this.handleSwitchStop.bind(this));
+            slide.addEventListener("mouseleave", this.handleAutoChange.bind(this));
         })
+    }
+
+    handleSwitchStop() {
+        clearInterval(this.interval)
     }
 
     handleDotBehavior() {
@@ -129,7 +127,8 @@ export class Slider {
 
     handleArrowAction(condition) {
         this.slides[this.imageIndex].classList.remove("active"); // left: 0
-        this.titles[this.imageIndex].classList.remove("active");
+        //this.titles[this.imageIndex].classList.remove("active");
+        this.handleTitleAnimation("basic", this.titles[this.imageIndex])
         if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.remove("pagi-active");
 
         if(condition) {
@@ -147,8 +146,36 @@ export class Slider {
         }
 
         if(this.dots[this.imageIndex]) this.dots[this.imageIndex].classList.add("pagi-active");
-        this.titles[this.imageIndex].classList.add("active");
+        // this.titles[this.imageIndex].classList.add("active");
+        //this.titles[this.imageIndex].style.opacity = 1;
+        this.titleAnimation ?
+            this.handleTitleAnimation(this.titleAnimation, this.titles[this.imageIndex])
+            :
+            this.handleTitleAnimation("classic", this.titles[this.imageIndex]);
         this.slides[this.imageIndex].classList.add("active");
+    }
+
+    handleTitleAnimation(animationType, element) {
+        //console.log(animationType)
+        switch (animationType) {
+            case "zoomIn":
+                element.classList.add("zoomIn")
+                break;
+            case "fadeIn":
+                element.classList.add("fadeIn")
+                break;
+            case "rollUp":
+                element.classList.add("rollUp")
+                break;
+            case "basic":
+                element.className = "carousel_title";
+                break;
+            case "classic":
+                element.classList.add("active");
+                break;
+            default:
+                return;
+        }
     }
 
     handleStopSlider() {

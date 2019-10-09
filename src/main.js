@@ -13,18 +13,34 @@ const styleObject = {
     paginationClass: "", // creates a class with a given name (you can give additional styles)
     sliderContainerClass: "", // creates a class with a given name (you can give additional styles)
     arrowClass: "red", // creates a class with a given name (you can give additional styles)
-    paginationClass: "" // creates a class with a given name (you can give additional styles)
+    paginationClass: "",
+    titleAnimation: "fadeIn" // creates a class with a given name (you can give additional styles)
 }
 
 const styleObject2 = {
     showPagination: true,
     showArrows: false,
     autoMode: true,
-    timing: 2000,
+    timing: 3000,
     paginationClass: "",
     sliderContainerClass: "",
     arrowClass: "",
-    paginationClass: ""
+    paginationClass: "",
+    carouselTitleClass: "",
+    titleAnimation: "zoomIn"
+}
+
+const styleObject3 = {
+    showPagination: true,
+    showArrows: false,
+    autoMode: true,
+    timing: 3000,
+    paginationClass: "",
+    sliderContainerClass: "",
+    arrowClass: "",
+    paginationClass: "",
+    carouselTitleClass: "",
+    titleAnimation: "rollUp"
 }
 
 /* DOM container for our slider */
@@ -45,5 +61,5 @@ root1.insertAdjacentHTML("beforeend", testSlider.generateDOMCarousel());
 const testSlider2 = generateSlider(data2, "#root-2", styleObject2);
 root2.insertAdjacentHTML("beforeend", testSlider2.generateDOMCarousel());
 
-const testSlider3 = generateSlider(data, "#root-3", styleObject);
+const testSlider3 = generateSlider(data, "#root-3", styleObject3);
 root3.insertAdjacentHTML("beforeend", testSlider3.generateDOMCarousel());

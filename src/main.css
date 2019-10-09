@@ -1,4 +1,5 @@
- .container_main {
+
+.container_main {
     display: flex;
     width: 100%; height: 100%;
     margin: 5px;
@@ -26,6 +27,7 @@
 .arrows_container,
 .pagination_container {
      display: flex;
+     cursor: pointer;
      position: absolute;
      top: 0; left: 0; right: 0; bottom: 0;
  }
@@ -44,14 +46,44 @@
 
 .carousel_title {
     position: absolute;
-    font-weight: bolder;
+    background: rgba(0,0,0,0.3);
+    padding: 10px 40px;
     color: #fff;
     opacity: 0;
+    visibility: hidden;
+    font-family: "Arial", sans-serif;
+    top: -300px;
 }
 
 .carousel_title.active {
+    visibility: visible;
     opacity: 1;
 }
+
+.carousel_title.zoomIn {
+    transition: transform 1.5s ease-out;
+    transform: scale(1.3);
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+}
+
+.carousel_title.fadeIn {
+    transition: opacity 1s ease;
+    opacity: 1;
+    transform: scale(1);
+    top: 50%;
+    visibility: visible;
+}
+
+.carousel_title.rollUp {
+    transition: top 1s ease;
+    opacity: 1;
+    top: 50%;
+    transform: scale(1);
+    visibility: visible;
+}
+
 .arrows_container {
      position: absolute;
      top: 0; bottom: 0; left: 0; right: 0;

@@ -5,6 +5,11 @@
 
 ### Update:
   - added onmouseover functionality - on mouse over action stops the slider
+  - added title animation functionality:
+        - fadeIn
+        - rollUp
+        - zoomIn
+        - or classic
 
 <img style="box-shadow: 2px 3px 0 0 #000;" src="https://user-images.githubusercontent.com/28606968/66319303-2b392700-e91d-11e9-90de-f15f2ef817da.png" width="800" />
 

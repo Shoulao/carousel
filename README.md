@@ -2,6 +2,7 @@
 
 ### Presentation
   - the styling of a carousel is fully customizable, you can add your own classes via objectStyle element like in the description below
+  - slider is fully responsive; just add a class to the root element, set width and height. Slider will adjust to the frame.
 
 ### Update:
   - + onmouseover functionality - on mouse over action stops the slider
